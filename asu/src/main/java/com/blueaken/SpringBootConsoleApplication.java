@@ -1,7 +1,8 @@
 package com.blueaken;
 
-import com.blueaken.service.HelloMessageService;
+import com.blueaken.service.CIICMethods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,11 +10,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import static java.lang.System.exit;
 
+/*
+# 参考：http://blog.csdn.net/bryan__/article/details/46317203
+ */
 @SpringBootApplication
 public class SpringBootConsoleApplication implements CommandLineRunner {
 
     @Autowired
-    private HelloMessageService helloService;
+    private CIICMethods ciicMethods;
+
+    @Value("${loginname}")
+    private String loginname;
+    @Value("${password}")
+    private String password;
 
     public static void main(String[] args) throws Exception {
 
@@ -27,13 +36,7 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        if (args.length > 0 ) {
-            System.out.println(helloService.getMessage(args[0].toString()));
-        }else{
-            System.out.println(helloService.getMessage());
-        }
-
+        ciicMethods.login(loginname, password);
         exit(0);
     }
 }
